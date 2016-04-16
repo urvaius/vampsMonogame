@@ -13,6 +13,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using GameStateManagement;
+using TexturePackerLoader;
 #endregion
 
 namespace Vamps
@@ -27,17 +28,24 @@ namespace Vamps
         #region Fields
 
         ContentManager content;
-        Texture2D backgroundTexture;
+        //Texture2D backgroundTexture;
+		private SpriteSheet spriteSheet;
 
-        #endregion
+		private SpriteRender spriteRender;
 
-        #region Initialization
+		private SpriteFrame backgroundSprite;
+		private Vector2 centreScreen;
+
+		
+		#endregion
+
+		#region Initialization
 
 
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public BackgroundScreen()
+		/// <summary>
+		/// Constructor.
+		/// </summary>
+		public BackgroundScreen()
         {
             TransitionOnTime = TimeSpan.FromSeconds(0.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
@@ -53,13 +61,23 @@ namespace Vamps
         /// </summary>
         public override void Activate(bool instancePreserved)
         {
-            if (!instancePreserved)
+
+			
+			if (!instancePreserved)
             {
                 if (content == null)
                     content = new ContentManager(ScreenManager.Game.Services, "Content");
 
-                backgroundTexture = content.Load<Texture2D>(@"Graphics/background");
-            }
+               // backgroundTexture = content.Load<Texture2D>(@"Graphics/background");
+
+
+				//spriteBatch = new SpriteBatch(GraphicsDevice);
+				
+				
+				var spriteSheetLoader = new SpriteSheetLoader(content);
+				spriteSheet = spriteSheetLoader.Load("vampspack.png");
+				backgroundSprite = this.spriteSheet.Sprite(TexturePackerMonoGameDefinitions.vampsassets.Backgrounds_forest);
+			}
         }
 
 
@@ -96,16 +114,32 @@ namespace Vamps
         /// </summary>
         public override void Draw(GameTime gameTime)
         {
-            SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
-            Viewport viewport = ScreenManager.GraphicsDevice.Viewport;
-            Rectangle fullscreen = new Rectangle(0, 0, viewport.Width, viewport.Height);
+			SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
+			spriteRender = new SpriteRender(spriteBatch);
 
-            spriteBatch.Begin();
+			Viewport viewport = ScreenManager.GraphicsDevice.Viewport;
+           // Rectangle fullscreen = new Rectangle(0, 0, viewport.Width, viewport.Height);
 
-            spriteBatch.Draw(backgroundTexture, fullscreen,
-                             new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha));
 
-            spriteBatch.End();
+			
+			Rectangle fullscreen = new Rectangle(viewport.Width / 2, viewport.Height / 2, viewport.Width, viewport.Height);
+			centreScreen = new Vector2(viewport.Width / 2, viewport.Height / 2);
+			//centreScreen = new Vector2(viewport.Width / 2, viewport.Height / 2);
+
+			//this.spriteRender.Draw(this.backgroundSprite, this.centreScreen,null,0,1,SpriteEffects.None);
+
+
+
+
+			spriteBatch.Begin();
+
+			//new code for texture loader
+			//spriteRender.Draw(this.backgroundSprite, fullscreen, null, 0, SpriteEffects.None);
+			spriteRender.Draw(backgroundSprite, centreScreen, null, 0, 2, SpriteEffects.None);
+			// spriteBatch.Draw(backgroundTexture, fullscreen,
+			//                new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha));
+
+			spriteBatch.End();
         }
 
 

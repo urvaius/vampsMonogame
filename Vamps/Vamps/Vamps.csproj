@@ -100,8 +100,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Entities\Butterfly.cs" />
-    <Compile Include="Entities\Entity.cs" />
+    <Compile Include="Entities\Creature.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="GamePage.xaml.cs">
       <DependentUpon>GamePage.xaml</DependentUpon>
@@ -124,7 +123,13 @@
     <Compile Include="Screens\OptionsMenuScreen.cs" />
     <Compile Include="Screens\PauseMenuScreen.cs" />
     <Compile Include="Screens\PlayerIndexEventArgs.cs" />
+    <Compile Include="TexturePackerLoader\SpriteFrame.cs" />
+    <Compile Include="TexturePackerLoader\SpriteRender.cs" />
+    <Compile Include="TexturePackerLoader\SpriteSheet.cs" />
+    <Compile Include="TexturePackerLoader\SpriteSheetLoader.cs" />
     <Compile Include="Utility\Animation.cs" />
+    <Compile Include="Utility\AnimationManager.cs" />
+    <Compile Include="Utility\vamapspack.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Graphics\background.xnb">
@@ -136,7 +141,6 @@
     <Content Include="Content\Graphics\gradient.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Content\Graphics\Butterfly\butterfly_fly_rooked.xnb" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
@@ -146,6 +150,8 @@
     <None Include="Vamps_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\vampspack.png" />
+    <Content Include="Content\vampspack.txt" />
     <Content Include="Game.ico" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
@@ -172,6 +178,7 @@
   <ItemGroup>
     <Folder Include="Content\Effects\" />
     <Folder Include="Content\Graphics\Backgrounds\" />
+    <Folder Include="Content\Graphics\Butterfly\" />
     <Folder Include="Content\Sound\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

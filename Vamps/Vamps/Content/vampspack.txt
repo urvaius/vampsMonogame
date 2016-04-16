@@ -1,0 +1,25 @@
+#
+# Sprite sheet data for MonoGame.
+#
+# To learn how to import these sprites into your MonoGame project visit:
+# http://www.codeandweb.com/texturepacker/monogame
+#
+# Sprite sheet: vampspack.png (604 x 980)
+# $TexturePacker:SmartUpdate:8fee909ee279cc1c5e3c72ebbfd6c3e2:521017297cf7b7e5841d7b0b4af1528f:da1f8de83c34907d12d357ddd091d34d$
+#
+
+backgrounds/forest;1;1;1;600;960;960;600;0.5;0.5
+butterflyrookfly/butterrook1;0;140;963;26;15;33;26;0.5192307692307693;0.4
+butterflyrookfly/butterrook10;0;168;963;25;15;32;23;0.56;0.5
+butterflyrookfly/butterrook11;0;195;963;25;15;29;22;0.54;0.5333333333333333
+butterflyrookfly/butterrook12;0;1;963;26;16;31;22;0.5576923076923077;0.5625
+butterflyrookfly/butterrook13;0;29;963;26;16;28;21;0.5384615384615384;0.46875
+butterflyrookfly/butterrook2;0;113;963;25;16;34;23;0.56;0.46875
+butterflyrookfly/butterrook3;0;222;963;25;15;30;23;0.6;0.43333333333333335
+butterflyrookfly/butterrook4;0;303;963;26;14;32;23;0.5;0.4642857142857143
+butterflyrookfly/butterrook5;0;249;963;25;15;32;29;0.52;0.5
+butterflyrookfly/butterrook6;0;359;963;25;14;33;22;0.54;0.5714285714285714
+butterflyrookfly/butterrook7;0;331;963;26;14;31;28;0.5576923076923077;0.5
+butterflyrookfly/butterrook8;0;57;963;26;16;31;24;0.5192307692307693;0.5
+butterflyrookfly/butterrook9;0;85;963;26;16;31;26;0.5576923076923077;0.4375
+butterflyrookfly/butterrooko14;0;276;963;25;15;29;24;0.5;0.4666666666666667

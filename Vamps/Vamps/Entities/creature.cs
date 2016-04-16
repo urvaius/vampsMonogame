@@ -6,16 +6,15 @@ using Utility;
 
 namespace Vamps.Entities
 {
-    public abstract class Entity
+    public  class Creature
     {
 
         #region fields
 
         Viewport viewport;
-        public Texture2D Texture;
-		//animation for the enemy
-		//public Animation EntityAnimation;
-		public AnimationManager EntityAnimationManager;
+        //public Texture2D Texture;
+        //animation for the enemy
+        public AnimationManager CreatureAnimationManager;
         //the position of enemy of ship
         public Vector2 Position;
         //state of the shipo
@@ -40,10 +39,10 @@ namespace Vamps.Entities
         #region Methods
 
         //texture entity
-        public virtual void Initialize(Viewport viewport, Texture2D texture, Vector2 position, int damage)
+        public virtual void Initialize(Viewport viewport, AnimationManager creatureAnimationManager, Vector2 position, int damage)
         {
-            Texture = texture;
-            this.Position = position;
+			CreatureAnimationManager = creatureAnimationManager;
+			this.Position = position;
             this.viewport = viewport;
             Active = true;
             Health = 0;
@@ -105,7 +104,7 @@ namespace Vamps.Entities
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             //draw the animationexample
-            EntityAnimation.Draw(spriteBatch);
+            //EntityAnimation.Draw(spriteBatch);
 
             //example texture draw
            // spriteBatch.Draw(Texture, Position, null, Color.White, 0f, new Vector2(Width / 2, Height / 2), 1f, SpriteEffects.None, 0f);

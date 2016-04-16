@@ -15,9 +15,10 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using GameStateManagement;
-using Vamps.Utility;
-using Vamps.Entities;
+using Utility;
+//using Vamps.Entities;
 using System.Collections.Generic;
+using TexturePackerLoader;
 #endregion
 
 namespace Vamps
@@ -37,9 +38,31 @@ namespace Vamps
 		Vector2 playerPosition = new Vector2(100, 100);
 		Vector2 enemyPosition = new Vector2(100, 100);
 
+		private readonly TimeSpan timePerFrame = TimeSpan.FromSeconds(1f / 30f);
+
+
+		private SpriteSheet spriteSheet;
+
+		private SpriteRender spriteRender;
+		private AnimationManager characterAnimationManager;
+
+
+
+
+
+
+
+
+
+
+
+
+
 		//textures create butterfly
-		Texture2D butterflyTop;
-		List<Butterfly> butterflies;
+		//Texture2D butterflyTop;
+		//List<Butterfly> butterflies;
+
+
 
 
 
@@ -81,8 +104,27 @@ namespace Vamps
 					content = new ContentManager(ScreenManager.Game.Services, "Content");
 
 				gameFont = content.Load<SpriteFont>(@"Graphics/gamefont");
-				butterflyTop = content.Load<Texture2D>(@"Graphics/Butterfly/butterfly_fly_rooked");
-				butterflies = new List<Butterfly>();
+
+
+
+
+
+				var spriteSheetLoader = new SpriteSheetLoader(content);
+				spriteSheet = spriteSheetLoader.Load("vampspack.png");
+
+
+				
+
+				
+				InitialiseAnimationManager();
+
+
+
+
+
+
+				//butterflyTop = content.Load<Texture2D>(@"Graphics/Butterfly/butterfly_fly_rooked");
+				//butterflies = new List<Butterfly>();
 
 
 				// A real game would probably have more content than this sample, so
@@ -140,14 +182,14 @@ namespace Vamps
 		{
 			//create the animation object
 			
-			Animation butterflyAnimation = new Animation();
+			//Animation butterflyAnimation = new Animation();
 			//Animation balloonEnemyAnimation = new Animation();
 			//initizlize theanimation with the correct ahimation information
 			//test for sizes
-			butterflyAnimation.Initialize(butterflyTop, Vector2.Zero, 70, 60, 14, 30, Color.White, 2f, true);
+			//butterflyAnimation.Initialize(butterflyTop, Vector2.Zero, 70, 60, 14, 30, Color.White, 2f, true);
 			// balloonEnemyAnimation.Initialize(balloonEnemyTexture, Vector2.Zero, 47, 61, 8, 30, Color.White, 1f, true);
 			//randomly generate the position of the enemy or later change this to a specific spot
-			Vector2 position = new Vector2(ScreenManager.GraphicsDevice.Viewport.Width + butterflyTop.Width / 2, random.Next(100, ScreenManager.GraphicsDevice.Viewport.Height - 100));
+			//Vector2 position = new Vector2(ScreenManager.GraphicsDevice.Viewport.Width + butterflyTop.Width / 2, random.Next(100, ScreenManager.GraphicsDevice.Viewport.Height - 100));
 
 
 			//create single butterlfy
@@ -155,13 +197,13 @@ namespace Vamps
 
 			//butterfly1.Initialize(butterflyAnimation, position);
 			//create many butterfiles
-			Butterfly butterfly = new Butterfly();
+			//Butterfly butterfly = new Butterfly();
 			//Enemy balloonEnemy = new Enemy();
 			//initizlize the enemy
-			butterfly.Initialize(butterflyAnimation, position);
+			//butterfly.Initialize(butterflyAnimation, position);
 			//balloonEnemy.Initialize(balloonEnemyAnimation, balloonPosition);
 			// add the enemy to the active enemies list
-			butterflies.Add(butterfly);
+			//butterflies.Add(butterfly);
 			//balloonEnemies.Add(balloonEnemy);
 		}
 		#region Update and Draw
@@ -185,13 +227,19 @@ namespace Vamps
 
 			if (IsActive)
 			{
-				if(butterflies.Count <1)
-				{
-					AddButterfly();
-				}
+
+				characterAnimationManager.Update(gameTime);
+
+
 				
 
-				UpdateButterflies(gameTime);
+				//if(butterflies.Count <1)
+				//{
+				//	AddButterfly();
+				//}
+
+
+				//UpdateButterflies(gameTime);
 
 				
 
@@ -288,15 +336,59 @@ namespace Vamps
 
 		private void UpdateButterflies(GameTime gameTime)
 		{
-			for (int i = butterflies.Count - 1; i >= 0; i--)
-			{
-				butterflies[i].Update(gameTime);
-				if (!butterflies[i].Active)
-				{
-					butterflies.RemoveAt(i);
-				}
-			}
+			//for (int i = butterflies.Count - 1; i >= 0; i--)
+			//{
+			//	butterflies[i].Update(gameTime);
+			//	if (!butterflies[i].Active)
+			//	{
+			//		butterflies.RemoveAt(i);
+			//	}
+			//}
 		}
+
+
+
+
+		private void InitialiseAnimationManager()
+		{
+
+			var characterStartPosition = new Vector2(350, 530);
+			var characterVelocityPixelsPerSecond = 200;
+
+
+			var turnSprites = new[] {
+				TexturePackerMonoGameDefinitions.vampsassets.Butterflyrookfly_butterrook1,
+				TexturePackerMonoGameDefinitions.vampsassets.Butterflyrookfly_butterrook2,
+				TexturePackerMonoGameDefinitions.vampsassets.Butterflyrookfly_butterrook3,
+			};
+
+			var walkSprites = new[] {
+				TexturePackerMonoGameDefinitions.vampsassets.Butterflyrookfly_butterrook10,
+				TexturePackerMonoGameDefinitions.vampsassets.Butterflyrookfly_butterrook11,
+				TexturePackerMonoGameDefinitions.vampsassets.Butterflyrookfly_butterrook12,
+				TexturePackerMonoGameDefinitions.vampsassets.Butterflyrookfly_butterrook13,
+
+			};
+
+			var animationWalkRight = new Animation(new Vector2(characterVelocityPixelsPerSecond, 0), this.timePerFrame, SpriteEffects.None, walkSprites);
+			var animationWalkLeft = new Animation(new Vector2(-characterVelocityPixelsPerSecond, 0), this.timePerFrame, SpriteEffects.FlipHorizontally, walkSprites);
+			var animationTurnRightToLeft = new Animation(Vector2.Zero, this.timePerFrame, SpriteEffects.None, turnSprites);
+			var animationTurnLeftToRight = new Animation(Vector2.Zero, this.timePerFrame, SpriteEffects.FlipHorizontally, turnSprites);
+
+			var animations = new[]
+			{
+			   animationWalkRight, animationWalkRight, animationWalkRight, animationWalkRight, animationWalkRight, animationWalkRight,
+			   animationTurnRightToLeft,
+			   animationWalkLeft, animationWalkLeft, animationWalkLeft, animationWalkLeft, animationWalkLeft, animationWalkLeft,
+			   animationTurnLeftToRight
+			};
+
+			characterAnimationManager = new AnimationManager(this.spriteSheet, characterStartPosition, animations);
+		}
+
+
+
+
 
 		/// <summary>
 		/// Draws the gameplay screen.
@@ -308,18 +400,32 @@ namespace Vamps
 											   Color.CornflowerBlue, 0, 0);
 
 			// Our player and enemy are both actually just text strings.
+
+			
+			
 			SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
+			
 
 			spriteBatch.Begin();
 
-			//draw butterfly
-			foreach(Butterfly butterfly in butterflies)
-			{
-				butterfly.Draw(spriteBatch);
+			spriteRender = new SpriteRender(spriteBatch);
 
-			}
-			
-			
+				spriteRender.Draw(
+				characterAnimationManager.CurrentSprite,
+				characterAnimationManager.CurrentPosition,
+				Color.White, 0, 1,
+				characterAnimationManager.CurrentSpriteEffects);
+
+
+
+			//draw butterfly
+			//foreach(Butterfly butterfly in butterflies)
+			//{
+			//	butterfly.Draw(spriteBatch);
+
+			//}
+
+
 			//spriteBatch.DrawString(gameFont, "// TODO", playerPosition, Color.Green);
 
 			//spriteBatch.DrawString(gameFont, "Insert Gameplay Here",
@@ -327,7 +433,7 @@ namespace Vamps
 
 
 
-			
+
 
 			spriteBatch.End();
 
